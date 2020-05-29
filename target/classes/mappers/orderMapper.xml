@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper/OrderMapper">
+		
+	<insert id="insertOrder" parameterType="OrderVO">
+		insert into order_tbl(order_code, USER_ID, ORDER_NAME, ORDER_POSTCODE, ORDER_ADDRESS, ORDER_DETAILADDR, ORDER_PHONENUM, ORDER_SUMPRICE, ORDER_DATE)
+		 VALUES
+		(#{order_code},#{user_id},#{order_name},#{order_postcode},#{order_address},#{order_detailaddr},#{order_phonenum},#{order_sumprice},SYSDATE)
+	</insert>
+	
+	
+	
+	<insert id="insertDetail" parameterType="map">
+		insert into order_detail_tbl(order_code,product_code,order_count,order_price)
+		select #{order_code},c.product_code,c.product_count,c.product_count*p.product_price
+		from cart_tbl c left join product_tbl p
+		on c.product_code = p.product_code
+		where c.cart_code = 
+		<foreach collection="cart_code" item="code" index="index" open="any(" separator="," close=")">#{code}</foreach>
+
+	</insert>
+	
+	<select id="orderList" parameterType="map" resultType="OrderListVO">
+		select o.order_code,COUNT(od.product_code) as product_amount,o.order_sumprice,o.order_date , o.order_check
+		from (select order_code,order_sumprice,order_date,order_check,row_number() over(order by order_code desc) num from ordeR_tbl
+              where user_id = #{user_id}
+              order by order_code desc) o , order_detail_tbl od
+		where o.order_code = od.order_code
+        and num between #{Criteria.rowStart} and #{Criteria.rowEnd}
+		group by o.order_code, o.order_sumprice, o.order_date, o.order_check
+        order by order_code desc
+	</select>
+		
+	<select id="orderListCount" resultType="int" parameterType="string">
+	select count(order_code) from order_tbl
+	where user_id = #{user_id}
+	</select>
+	
+	<select id="getOrderName" parameterType="int" resultType="ProductVO">
+		select product_name,product_code 
+        from product_tbl
+        where product_code = ( 
+        select max(product_code) as product_code
+        from order_detail_tbl
+        where order_code = #{order_code})
+	</select>
+	
+	<insert id="quickOrder" parameterType="Order_detailVO">
+	insert into order_detail_tbl(order_code,product_code,order_count,order_price)
+	values (#{order_code},#{product_code},#{order_count},#{order_price})		
+	</insert>
+	
+	<select id="getCode" resultType="int">
+		select SEQ_ORDER_ID.nextval from dual
+	</select>
+	
+	<select id="detail" resultType="OrderDTO" parameterType="int">
+		select d.product_code,p.product_image,p.product_price,d.order_count,product_name,d.order_code
+		from order_detail_tbl d , product_tbl p
+		where d.product_code = p.product_code
+		and order_code = #{order_code}
+	</select>
+	
+	<select id="order" resultType="OrderVO" parameterType="int">
+	select
+	order_code, user_id, order_name, order_postcode, order_address, order_detailaddr, order_phonenum, order_sumprice, order_date, order_check
+	from order_tbl
+	where order_code = #{order_code}
+	</select>
+	
+	<delete id="detailDel" parameterType="int">
+		delete from order_detail_tbl where order_code = #{order_code}
+	</delete>
+	
+	<delete id="orderDel" parameterType="int">
+		delete from order_tbl where order_code = #{order_code}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,701 @@
+--------------------------------------------------------
+--  ?åå?ùº?ù¥ ?Éù?Ñ±?ê® - Î™©Ïöî?ùº-4?õî-23-2020   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Sequence SEQ_BOARD_ID
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "SEQ_BOARD_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE ;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_CART_ID
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "SEQ_CART_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 201 CACHE 20 NOORDER  NOCYCLE ;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_FAQ_ID
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "SEQ_FAQ_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 121 CACHE 20 NOORDER  NOCYCLE ;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_ORDER_ID
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "SEQ_ORDER_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 201 CACHE 20 NOORDER  NOCYCLE ;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_PRODUCT_ID
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "SEQ_PRODUCT_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 161 CACHE 20 NOORDER  NOCYCLE ;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_REVIEW_ID
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "SEQ_REVIEW_ID"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 101 CACHE 20 NOORDER  NOCYCLE ;
+--------------------------------------------------------
+--  DDL for Table REVIEW_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "REVIEW_TBL" 
+   (	"REVIEW_ID" NUMBER, 
+	"USER_ID" VARCHAR2(20 BYTE), 
+	"PRODUCT_CODE" NUMBER, 
+	"REVIEW_CONTENT" VARCHAR2(200 BYTE), 
+	"REVIEW_DATE" DATE DEFAULT SYSDATE
+   ) ;
+--------------------------------------------------------
+--  DDL for Table CATEGORY_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "CATEGORY_TBL" 
+   (	"CATEGORY_CODE" VARCHAR2(20 BYTE), 
+	"PARENTS_CODE" VARCHAR2(20 BYTE), 
+	"CATEGORY_NAME" VARCHAR2(50 BYTE)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table BOARD_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "BOARD_TBL" 
+   (	"BOARD_NUM" NUMBER, 
+	"USER_ID" VARCHAR2(20 BYTE), 
+	"BOARD_TITLE" VARCHAR2(100 BYTE), 
+	"BOARD_CONTENT" VARCHAR2(4000 BYTE), 
+	"BOARD_CREATEDAY" DATE DEFAULT SYSDATE, 
+	"PRODUCT_CODE" NUMBER, 
+	"BOARD_REPLY" CHAR(1 BYTE) DEFAULT 'N'
+   ) ;
+--------------------------------------------------------
+--  DDL for Table BOARD_REPLY_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "BOARD_REPLY_TBL" 
+   (	"BOARD_NUM" NUMBER, 
+	"ADMIN_ID" VARCHAR2(50 BYTE), 
+	"REPLY_CONTENT" VARCHAR2(200 BYTE)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table ADMIN_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "ADMIN_TBL" 
+   (	"ADMIN_ID" VARCHAR2(50 BYTE), 
+	"ADMIN_PW" VARCHAR2(60 BYTE), 
+	"ADMIN_NAME" VARCHAR2(50 BYTE), 
+	"LAST_DATE" DATE DEFAULT sysdate
+   ) ;
+--------------------------------------------------------
+--  DDL for Table PRODUCT_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "PRODUCT_TBL" 
+   (	"PRODUCT_CODE" NUMBER, 
+	"CATEGORY_CODE" VARCHAR2(20 BYTE), 
+	"PARENTS_CODE" VARCHAR2(20 BYTE), 
+	"PRODUCT_NAME" VARCHAR2(50 BYTE), 
+	"PRODUCT_PRICE" NUMBER, 
+	"PRODUCT_DISCOUNT" NUMBER, 
+	"PRODUCT_COMPANY" VARCHAR2(30 BYTE), 
+	"PRODUCT_INFORM" VARCHAR2(4000 BYTE), 
+	"PRODUCT_IMAGE" VARCHAR2(200 BYTE), 
+	"PRODUCT_AMOUNT" NUMBER, 
+	"PRODUCT_EVENT" CHAR(1 BYTE) DEFAULT 'N', 
+	"PRODUCT_DISPLAY" CHAR(1 BYTE), 
+	"PRODUCT_CREATEDATE" DATE DEFAULT SYSDATE, 
+	"PRODUCT_UPDATE" DATE DEFAULT SYSDATE
+   ) ;
+--------------------------------------------------------
+--  DDL for Table ORDER_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "ORDER_TBL" 
+   (	"ORDER_CODE" NUMBER, 
+	"USER_ID" VARCHAR2(20 BYTE), 
+	"ORDER_NAME" VARCHAR2(30 BYTE), 
+	"ORDER_POSTCODE" CHAR(5 BYTE), 
+	"ORDER_ADDRESS" VARCHAR2(200 BYTE), 
+	"ORDER_DETAILADDR" VARCHAR2(200 BYTE), 
+	"ORDER_PHONENUM" VARCHAR2(20 BYTE), 
+	"ORDER_SUMPRICE" NUMBER, 
+	"ORDER_DATE" DATE DEFAULT SYSDATE, 
+	"ORDER_CHECK" CHAR(1 BYTE) DEFAULT 'N'
+   ) ;
+--------------------------------------------------------
+--  DDL for Table FAQ_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "FAQ_TBL" 
+   (	"FAQ_NUM" NUMBER, 
+	"FAQ_TITLE" VARCHAR2(50 BYTE) DEFAULT ' ', 
+	"FAQ_WRITER" VARCHAR2(50 BYTE), 
+	"FAQ_CONTENT" VARCHAR2(4000 BYTE), 
+	"FAQ_WRITEDATE" DATE DEFAULT sysdate, 
+	"FAQ_REF" NUMBER DEFAULT 0, 
+	"FAQ_RE_LEVEL" NUMBER DEFAULT 0, 
+	"FAQ_RE_STEP" NUMBER DEFAULT 0, 
+	"FAQ_LASTUPDATE" DATE DEFAULT sysdate, 
+	"WRITER_ONLY" CHAR(1 BYTE) DEFAULT 'N', 
+	"ADMIN_REPLY" CHAR(1 BYTE) DEFAULT 'N'
+   ) ;
+--------------------------------------------------------
+--  DDL for Table ORDER_DETAIL_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "ORDER_DETAIL_TBL" 
+   (	"ORDER_CODE" NUMBER, 
+	"PRODUCT_CODE" NUMBER, 
+	"ORDER_COUNT" NUMBER, 
+	"ORDER_PRICE" NUMBER
+   ) ;
+--------------------------------------------------------
+--  DDL for Table CART_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "CART_TBL" 
+   (	"CART_CODE" NUMBER, 
+	"PRODUCT_CODE" NUMBER, 
+	"USER_ID" VARCHAR2(20 BYTE), 
+	"PRODUCT_COUNT" NUMBER
+   ) ;
+--------------------------------------------------------
+--  DDL for Table USERS_TBL
+--------------------------------------------------------
+
+  CREATE TABLE "USERS_TBL" 
+   (	"USER_ID" VARCHAR2(30 BYTE), 
+	"USER_NAME" VARCHAR2(50 BYTE), 
+	"USER_PW" VARCHAR2(60 BYTE), 
+	"USER_POSTCODE" CHAR(5 BYTE), 
+	"USER_ADDRESS" VARCHAR2(200 BYTE), 
+	"USER_DETAILADDR" VARCHAR2(200 BYTE), 
+	"USER_PHONENUM" VARCHAR2(15 BYTE), 
+	"USER_MAIL_CHECK" CHAR(1 BYTE), 
+	"USER_AUTH" CHAR(1 BYTE) DEFAULT 'N', 
+	"USER_POINT" NUMBER DEFAULT 0, 
+	"USER_CREATEDATE" DATE DEFAULT SYSDATE, 
+	"USER_UPDATE" DATE DEFAULT SYSDATE, 
+	"USER_EMAIL" VARCHAR2(150 BYTE)
+   ) ;
+REM INSERTING into REVIEW_TBL
+SET DEFINE OFF;
+Insert into REVIEW_TBL (REVIEW_ID,USER_ID,PRODUCT_CODE,REVIEW_CONTENT,REVIEW_DATE) values (42,'user1',142,'fdgh',to_date('20/03/31 09:33:26','RR/MM/DD HH:MI:SS'));
+Insert into REVIEW_TBL (REVIEW_ID,USER_ID,PRODUCT_CODE,REVIEW_CONTENT,REVIEW_DATE) values (45,'user1',121,'2354',to_date('20/03/31 05:48:02','RR/MM/DD HH:MI:SS'));
+Insert into REVIEW_TBL (REVIEW_ID,USER_ID,PRODUCT_CODE,REVIEW_CONTENT,REVIEW_DATE) values (61,'user2',143,'Î¶¨Î∑∞',to_date('20/04/01 02:30:10','RR/MM/DD HH:MI:SS'));
+Insert into REVIEW_TBL (REVIEW_ID,USER_ID,PRODUCT_CODE,REVIEW_CONTENT,REVIEW_DATE) values (81,'user1',143,'review',to_date('20/04/02 03:08:55','RR/MM/DD HH:MI:SS'));
+REM INSERTING into CATEGORY_TBL
+SET DEFINE OFF;
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('100',null,'?ÉÅÏ≤?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('200',null,'?ïòÏ≤?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('101','100','?ïÑ?ö∞?Ñ∞');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('102','100','?ÖîÏ∏?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('201','200','Î©¥Î∞îÏß?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('202','200','Ï≤?Î∞îÏ?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('300',null,'?öúÍª?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('103','100','Í∏¥Ìåî');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('105','100','?ãà?ä∏');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('203','200','Î∞òÎ∞îÏß?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('204','200','?ä¨?†â?ä§');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('205','200','?ä∏?†à?ù¥?ãù');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('301','300','?ïºÍµ?');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('302','300','ÎπÑÎãà');
+Insert into CATEGORY_TBL (CATEGORY_CODE,PARENTS_CODE,CATEGORY_NAME) values ('303','300','?ä§?ÉÖÎ∞?');
+REM INSERTING into BOARD_TBL
+SET DEFINE OFF;
+Insert into BOARD_TBL (BOARD_NUM,USER_ID,BOARD_TITLE,BOARD_CONTENT,BOARD_CREATEDAY,PRODUCT_CODE,BOARD_REPLY) values (6,'user1','Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨','Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨',to_date('20/04/03 11:10:59','RR/MM/DD HH:MI:SS'),143,'Y');
+Insert into BOARD_TBL (BOARD_NUM,USER_ID,BOARD_TITLE,BOARD_CONTENT,BOARD_CREATEDAY,PRODUCT_CODE,BOARD_REPLY) values (1,'user2','Î¨∏Ïùò ','test',to_date('20/04/05 01:07:36','RR/MM/DD HH:MI:SS'),144,'N');
+Insert into BOARD_TBL (BOARD_NUM,USER_ID,BOARD_TITLE,BOARD_CONTENT,BOARD_CREATEDAY,PRODUCT_CODE,BOARD_REPLY) values (3,'user1','erty','retyerty',to_date('20/04/05 09:49:40','RR/MM/DD HH:MI:SS'),144,'Y');
+Insert into BOARD_TBL (BOARD_NUM,USER_ID,BOARD_TITLE,BOARD_CONTENT,BOARD_CREATEDAY,PRODUCT_CODE,BOARD_REPLY) values (5,'user1','zxcvzxc','vzxcvzxcv',to_date('20/04/11 10:15:56','RR/MM/DD HH:MI:SS'),143,'Y');
+Insert into BOARD_TBL (BOARD_NUM,USER_ID,BOARD_TITLE,BOARD_CONTENT,BOARD_CREATEDAY,PRODUCT_CODE,BOARD_REPLY) values (7,'user2','Î¨∏Ïùò ','test',to_date('20/04/02 01:07:36','RR/MM/DD HH:MI:SS'),143,'N');
+Insert into BOARD_TBL (BOARD_NUM,USER_ID,BOARD_TITLE,BOARD_CONTENT,BOARD_CREATEDAY,PRODUCT_CODE,BOARD_REPLY) values (2,'user1','erty','retyerty',to_date('20/04/02 09:49:40','RR/MM/DD HH:MI:SS'),143,'N');
+Insert into BOARD_TBL (BOARD_NUM,USER_ID,BOARD_TITLE,BOARD_CONTENT,BOARD_CREATEDAY,PRODUCT_CODE,BOARD_REPLY) values (9,'user1','Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞?','Í∞??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞®Í??Çò?ã§?ùºÎßàÎ∞î?Ç¨?ïÑ?ûêÏ∞?',to_date('20/04/16 03:23:07','RR/MM/DD HH:MI:SS'),143,'Y');
+REM INSERTING into BOARD_REPLY_TBL
+SET DEFINE OFF;
+Insert into BOARD_REPLY_TBL (BOARD_NUM,ADMIN_ID,REPLY_CONTENT) values (6,'Í≥†ÎÇòÎ¶¨Ïûê','?ãµÎ≥? ?Öå?ä§?ä∏ 4');
+Insert into BOARD_REPLY_TBL (BOARD_NUM,ADMIN_ID,REPLY_CONTENT) values (5,'admin1','?ãµÎ≥? ?Öå?ä§?ä∏ 2');
+Insert into BOARD_REPLY_TBL (BOARD_NUM,ADMIN_ID,REPLY_CONTENT) values (3,'Í≥†ÎÇòÎ¶¨Ïûê','?ãµÎ≥? ?Öå?ä§?ä∏ 3');
+Insert into BOARD_REPLY_TBL (BOARD_NUM,ADMIN_ID,REPLY_CONTENT) values (9,'Í≥†ÎÇòÎ¶¨Ïûê','?ãµÎ≥? ?Öå?ä§?ä∏ 1');
+REM INSERTING into ADMIN_TBL
+SET DEFINE OFF;
+Insert into ADMIN_TBL (ADMIN_ID,ADMIN_PW,ADMIN_NAME,LAST_DATE) values ('admin1','$2a$10$weAYTH93KXpgjEGBgfWHxul/odbXrc8m3S2f2pVM.2MarMcE29pAW','Í≥†ÎÇòÎ¶¨Ïûê',to_date('20/04/23 02:24:08','RR/MM/DD HH:MI:SS'));
+REM INSERTING into PRODUCT_TBL
+SET DEFINE OFF;
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (106,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (141,'303','300','Ï∫•Í±∞Î£?',80,0,'?ò∏Ï£?','<img alt="" src="/upload/b3029332-600b-431f-a708-50d99870979e_Koala.jpg" style="height:375px; width:500px" />','/2020/03/27/s_14aef9db-b7db-4961-964a-0ef25e4733ae_Koala.jpg',997,'N','Y',to_date('20/03/27 11:00:56','RR/MM/DD HH:MI:SS'),to_date('20/03/27 11:00:56','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (103,'201','200','1234',1234,1234,'1234','1234','/2020/03/18/s_a1030229-e0df-4558-9d1a-5bc8a468f6f3_Hydrangeas.jpg',1234,'N','Y',to_date('20/03/18 12:48:22','RR/MM/DD HH:MI:SS'),to_date('20/03/18 12:48:22','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (142,'301','300','?Çô??',2000,0,'?ïÑ?ùºÎπÑÏïÑ','<img alt="" src="/upload/d8f58fd1-ed3c-4d7f-92d7-98b9cea9c3a1_?Çô??.jpg" style="height:222px; width:227px" />','/2020/03/27/s_fee6f0b4-da96-401e-b470-3d582164f0a0_?Çô??.jpg',9999,'N','Y',to_date('20/03/27 11:02:27','RR/MM/DD HH:MI:SS'),to_date('20/03/27 11:02:27','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (143,'301','300','??Ï°?',10000,10,'?ïò?äò','<img alt="" src="/upload/f6329710-526f-4cc2-bb2d-3bb99873346f_??Ï°?.jpg" style="height:259px; width:194px" />','/2020/03/27/s_00fc61c3-fe53-4987-8017-6b9b57a16b63_??Ï°?.jpg',9999,'N','Y',to_date('20/03/27 11:03:04','RR/MM/DD HH:MI:SS'),to_date('20/03/27 11:03:04','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (5,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (1,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (2,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (3,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (4,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (6,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (7,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (8,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (9,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (17,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (11,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (12,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (13,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (16,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (15,'201','200','asdf',123,0,'123','"<br />','/2020/03/18/s_688e0a06-f5c6-430b-aab9-0eb5d824a98b_Koala.jpg',9999,'Y','Y',to_date('20/03/18 03:45:27','RR/MM/DD HH:MI:SS'),to_date('20/03/18 03:46:21','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (144,'302','300','ÏΩîÏïå?ùº',800000,80,'?ò∏Ï£ºÏÇ∞','<img alt="" src="/upload/4b948b6f-99b2-4f29-b823-16bff9512f0e_ÏΩîÏïå?ùº.jpg" style="height:186px; width:124px" />','/2020/03/27/s_cdf96112-2663-4050-b287-86d76a89494f_ÏΩîÏïå?ùº.jpg',9999,'N','Y',to_date('20/03/27 11:04:47','RR/MM/DD HH:MI:SS'),to_date('20/03/27 11:04:47','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (102,'104','100','asdf',123,123,'qwe','123','/2020/03/18/s_2509374e-d4e5-490a-89f3-becf21fa7de3_Desert.jpg',122,'N','Y',to_date('20/03/18 12:36:04','RR/MM/DD HH:MI:SS'),to_date('20/03/18 12:36:04','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (105,'201','200','asfdfasdf',231234,0,'asdf','<img alt="" src="/upload/4fdf813f-5acd-4b61-9bc9-0deac7740290_Jellyfish.jpg" style="height:768px; width:1024px" />','/2020/03/18/s_2df65d27-a8c4-4256-993a-c46970f354f0_Jellyfish.jpg',123,'N','N',to_date('20/03/18 02:24:11','RR/MM/DD HH:MI:SS'),to_date('20/03/27 11:37:29','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (107,'101','100','?åΩÏª?',123,0,'awer','jkljkl;<br />
+<img alt="" src="/upload/ae817b26-42a0-444b-8894-e0229d59e0e8_Lighthouse.jpg" style="height:768px; width:1024px" />','/2020/03/18/s_1819e8a7-572a-48f1-b158-d951b153ffe6_Penguins.jpg',9999,'N','Y',to_date('20/03/18 03:47:00','RR/MM/DD HH:MI:SS'),to_date('20/03/27 11:06:30','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (121,'101','100','?ó∞Í∏àÏà†?Ç¨',1000,0,'Í≥µÍ∏âÏ≤?','?ÖÅ?Ñ¥?Öá?Ñπ<strong>?ÖÅ?Ñ¥?Öá?Ñπ</strong>?ÖÅ?Ñ¥?Öá?Ñπ<em>?ÖÅ?Ñ¥?Ñπ<s>?ÖÅ?Ñ¥?Öá?Ñπ</s></em><em><s>?ÖÅ?Ñ¥?Ñπ</s></em>?ÖÅ?Ñ¥?Öá?Ñπ<strong>?Ñ¥?Ñπ?Öá<s>?Ñ¥?Öá?Ñπ<img alt="?åΩÍ∑?" src="/upload/55cd1e6f-59a3-40c6-b514-9f73e1e8e351_Penguins.jpg" style="border-style:solid; border-width:12px; float:left; height:768px; margin:33px 23px; width:1024px" /></s></strong>','/2020/03/27/s_2ec35c31-ef53-4666-bc80-43d32567e801_download.jpg',9999,'N','Y',to_date('20/03/19 09:43:06','RR/MM/DD HH:MI:SS'),to_date('20/03/27 11:36:16','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (10,'203','200','?çîÎØ?1',50080,1234,'1234','1234','/2020/03/17/s_dd9f0a6b-07b7-449d-a4f6-d06d2326669e_Lighthouse.jpg',80,'N','N',to_date('20/03/17 11:18:43','RR/MM/DD HH:MI:SS'),to_date('20/03/24 10:22:48','RR/MM/DD HH:MI:SS'));
+Insert into PRODUCT_TBL (PRODUCT_CODE,CATEGORY_CODE,PARENTS_CODE,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_DISCOUNT,PRODUCT_COMPANY,PRODUCT_INFORM,PRODUCT_IMAGE,PRODUCT_AMOUNT,PRODUCT_EVENT,PRODUCT_BUY,PRODUCT_CREATEDATE,PRODUCT_UPDATE) values (14,'203','200','?çîÎØ?2',80000,1234,'1234','1234','/2020/03/17/s_794200d2-6d5c-4182-9e6d-6129bebf3cef_Hydrangeas.jpg',90,'Y','Y',to_date('20/03/17 11:18:43','RR/MM/DD HH:MI:SS'),to_date('20/04/16 05:21:15','RR/MM/DD HH:MI:SS'));
+REM INSERTING into ORDER_TBL
+SET DEFINE OFF;
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (49,'user1','ÏΩîÏïå?ùº','46702','Î∂??Ç∞ Í∞ïÏÑúÍµ? ????Î°?235Î≤àÍ∏∏ 9','Îß? Î∂??Ç∞ ?ïÑ?ù¥Í∞?','12341234',80000,to_date('20/03/27 10:56:51','RR/MM/DD HH:MI:SS'),'N');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (105,'user1','qwre','01000','?Ñú?ö∏ Í∞ïÎ∂ÅÍµ? Î∞©ÌïôÎ°? 384','qwer','qwer',800000,to_date('20/03/31 10:36:47','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (141,'user1','dfgh','46760','Î∂??Ç∞ Í∞ïÏÑúÍµ? Î•¥ÎÖ∏?Çº?Ñ±??Î°? 14','dfgh','fdgh',10000,to_date('20/04/02 03:08:45','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (181,'user1','test','48060','Î∂??Ç∞ ?ï¥?ö¥??Íµ? APECÎ°? 17','te','tes',804080,to_date('20/04/16 05:12:15','RR/MM/DD HH:MI:SS'),'N');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (182,'user1','aa','07810','?Ñú?ö∏ Í∞ïÏÑúÍµ? ÎßàÍ≥°?èô 749-4','a','aa',123,to_date('20/04/16 05:12:31','RR/MM/DD HH:MI:SS'),'N');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (184,'user1','test','06327','?Ñú?ö∏ Í∞ïÎÇ®Íµ? ?Çº?Ñ±Î°? 11','test','test',6400000,to_date('20/04/16 05:14:43','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (61,'user1','ÏΩ©Ï??Ö∏','49220','Î∂??Ç∞ ?ÑúÍµ? ÎßùÏñëÎ°?222Î≤àÍ∏∏ 8-5','2222222','222-2222-2222',1234000,to_date('20/03/27 05:50:16','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (163,'test19','zxcvzxcv','05208','?Ñú?ö∏ Í∞ïÎèôÍµ? Í∞ïÏùº?èô 669','zxcv','zxcvzxcv',246,to_date('20/04/07 11:25:04','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (122,'user2','qwe','04150','?Ñú?ö∏ ÎßàÌè¨Íµ? ?Å∞?ö∞Î¨ºÎ°ú 3','asfd','qwe',10000,to_date('20/04/01 02:30:01','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (161,'test19','asdf','42488','??Íµ? ?Ç®Íµ? ?Å∞Í≥®Í∏∏ 2','z','asdfasdf',810000,to_date('20/04/07 11:24:35','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (47,'user1','qwer','46719','Î∂??Ç∞ Í∞ïÏÑúÍµ? ?????èô?ÑúÎ°?222Î≤àÍ∏∏ 7','222','1234',1000,to_date('20/03/27 10:35:34','RR/MM/DD HH:MI:SS'),'N');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (162,'test19','asdf','41199','??Íµ? ?èôÍµ? ?Å∞Í≥†Í∞úÎ°? 1','x','sadf',2080,to_date('20/04/07 11:24:49','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (50,'user1','qwre','48060','Î∂??Ç∞ ?ï¥?ö¥??Íµ? APECÎ°? 17','?†àÍ≤åÎÖ∏','qwer',800000,to_date('20/03/27 01:04:12','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (183,'user1','tset','06097','?Ñú?ö∏ Í∞ïÎÇ®Íµ? Î¥âÏ??Ç¨Î°? 403','testse','ests',123,to_date('20/04/16 05:12:48','RR/MM/DD HH:MI:SS'),'N');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (83,'user1','qwer','07803','?Ñú?ö∏ Í∞ïÏÑúÍµ? Í∞ïÏÑúÎ°? 375','asdf','qwer',812000,to_date('20/03/30 11:29:24','RR/MM/DD HH:MI:SS'),'Y');
+Insert into ORDER_TBL (ORDER_CODE,USER_ID,ORDER_NAME,ORDER_POSTCODE,ORDER_ADDRESS,ORDER_DETAILADDR,ORDER_PHONENUM,ORDER_SUMPRICE,ORDER_DATE,ORDER_CHECK) values (104,'user1','asdf','48060','Î∂??Ç∞ ?ï¥?ö¥??Íµ? APECÎ°? 30','asdfasdf','asdf',400000,to_date('20/03/31 10:36:04','RR/MM/DD HH:MI:SS'),'Y');
+REM INSERTING into FAQ_TBL
+SET DEFINE OFF;
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (89,' ','user2','?Öå?ä§?ä∏2',to_date('20/04/20 04:53:18','RR/MM/DD HH:MI:SS'),87,1,12,to_date('20/04/20 04:53:18','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (87,'?Öå?ä§?ä∏','user2','1234',to_date('20/04/20 04:52:58','RR/MM/DD HH:MI:SS'),0,0,0,to_date('20/04/20 04:52:58','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (88,' ','user2','?Öå?ä§?ä∏1',to_date('20/04/20 04:53:14','RR/MM/DD HH:MI:SS'),87,1,7,to_date('20/04/20 04:53:14','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (90,' ',' ','?Ç≠?†ú?êú ?åìÍ∏??ûÖ?ãà?ã§.',to_date('20/04/20 04:53:23','RR/MM/DD HH:MI:SS'),87,1,19,to_date('20/04/20 04:53:23','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (91,' ','user2','?Öå?ä§?ä∏3 ?Öå?ä§?ä∏1',to_date('20/04/20 04:53:33','RR/MM/DD HH:MI:SS'),87,2,16,to_date('20/04/20 04:53:33','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (92,' ','user2','?Öå?ä§?ä∏3 ?Öå?ä§?ä∏2',to_date('20/04/20 04:53:40','RR/MM/DD HH:MI:SS'),87,2,17,to_date('20/04/20 04:53:40','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (96,' ','user2','?Öå?ä§?ä∏3 ?Öå?ä§?ä∏1 ?Öå?ä§?ä∏3',to_date('20/04/20 04:54:12','RR/MM/DD HH:MI:SS'),87,3,15,to_date('20/04/20 04:54:12','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (97,' ','user2','?Öå?ä§?ä∏2 ?Öå?ä§?ä∏1',to_date('20/04/20 04:54:29','RR/MM/DD HH:MI:SS'),87,2,10,to_date('20/04/20 04:54:29','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (98,' ','user2','?Öå?ä§?ä∏2 ?Öå?ä§?ä∏2',to_date('20/04/20 04:54:35','RR/MM/DD HH:MI:SS'),87,2,11,to_date('20/04/20 04:54:35','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (103,' ','user2','?Öå?ä§?ä∏1 ?Öå?ä§?ä∏3',to_date('20/04/20 04:55:13','RR/MM/DD HH:MI:SS'),87,2,6,to_date('20/04/20 04:55:13','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (104,' ','user2','?Öå?ä§?ä∏1 ?Öå?ä§?ä∏3 ?Öå?ä§?ä∏1',to_date('20/04/20 04:55:22','RR/MM/DD HH:MI:SS'),87,3,3,to_date('20/04/20 04:55:22','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (105,' ','user2','?Öå?ä§?ä∏1 ?Öå?ä§?ä∏3 ?Öå?ä§?ä∏2',to_date('20/04/20 04:55:26','RR/MM/DD HH:MI:SS'),87,3,4,to_date('20/04/20 04:55:40','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (106,' ','user2','?Öå?ä§?ä∏1 ?Öå?ä§?ä∏3 ?Öå?ä§?ä∏3',to_date('20/04/20 04:55:31','RR/MM/DD HH:MI:SS'),87,3,5,to_date('20/04/20 04:55:31','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (94,' ','user2','?Öå?ä§?ä∏3 ?Öå?ä§?ä∏1 ?Öå?ä§?ä∏1',to_date('20/04/20 04:53:57','RR/MM/DD HH:MI:SS'),87,3,13,to_date('20/04/20 04:53:57','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (95,' ','user2','?Öå?ä§?ä∏3 ?Öå?ä§?ä∏1 ?Öå?ä§?ä∏2',to_date('20/04/20 04:54:05','RR/MM/DD HH:MI:SS'),87,3,14,to_date('20/04/20 04:54:05','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (99,' ','user2','?Öå?ä§?ä∏2 ?Öå?ä§?ä∏1 ?Öå?ä§?ä∏1',to_date('20/04/20 04:54:50','RR/MM/DD HH:MI:SS'),87,3,9,to_date('20/04/20 04:54:50','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (100,' ','user2','?Öå?ä§?ä∏2 ?Öå?ä§?ä∏1 ?Öå?ä§?ä∏2',to_date('20/04/20 04:54:54','RR/MM/DD HH:MI:SS'),87,4,8,to_date('20/04/20 04:54:54','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (101,' ',' ','?Ç≠?†ú?êú ?åìÍ∏??ûÖ?ãà?ã§.',to_date('20/04/20 04:55:03','RR/MM/DD HH:MI:SS'),87,2,1,to_date('20/04/20 04:55:03','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (102,' ',' ','?Ç≠?†ú?êú ?åìÍ∏??ûÖ?ãà?ã§.',to_date('20/04/20 04:55:09','RR/MM/DD HH:MI:SS'),87,2,2,to_date('20/04/20 04:55:09','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (93,' ','user2','?Öå?ä§?ä∏3 ?Öå?ä§?ä∏3',to_date('20/04/20 04:53:46','RR/MM/DD HH:MI:SS'),87,2,18,to_date('20/04/20 04:53:46','RR/MM/DD HH:MI:SS'),'N','N');
+Insert into FAQ_TBL (FAQ_NUM,FAQ_TITLE,FAQ_WRITER,FAQ_CONTENT,FAQ_WRITEDATE,FAQ_REF,FAQ_RE_LEVEL,FAQ_RE_STEP,FAQ_LASTUPDATE,WRITER_ONLY,ADMIN_REPLY) values (107,' ','Í≥†ÎÇòÎ¶¨Ïûê','Í¥?Î¶¨Ïûê ?ãµÎ≥?',to_date('20/04/20 04:57:49','RR/MM/DD HH:MI:SS'),87,1,20,to_date('20/04/20 04:57:49','RR/MM/DD HH:MI:SS'),'N','N');
+REM INSERTING into ORDER_DETAIL_TBL
+SET DEFINE OFF;
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (49,1,80,80000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (105,121,10,800000,'Y');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (141,143,1,10000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (181,142,2,4000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (181,141,1,80,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (181,144,1,800000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (182,106,1,123,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (184,14,80,6400000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (163,17,3,123,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (163,102,1,123,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (61,121,30,1234000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (122,143,4,10000,'Y');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (47,3,8,1000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (161,144,17,800000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (161,143,1,10000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (162,142,50,2000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (162,141,1,80,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (50,144,5,800000,'Y');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (183,1,1,123,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (83,144,1,800000,'Y');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (83,143,20,10000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (83,142,1,2000,'N');
+Insert into ORDER_DETAIL_TBL (ORDER_CODE,PRODUCT_CODE,ORDER_COUNT,ORDER_PRICE,ORDER_REVIEW) values (104,14,5,400000,'N');
+REM INSERTING into CART_TBL
+SET DEFINE OFF;
+REM INSERTING into USERS_TBL
+SET DEFINE OFF;
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('user1','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',311550,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('user2','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','13536','Í≤ΩÍ∏∞ ?Ñ±?Ç®?ãú Î∂ÑÎãπÍµ? Î∞±ÌòÑ?èô 582-7','Ï£ºÍ≥µ?ïÑ?åå?ä∏','1234','N','Y',300,to_date('20/03/17 05:51:01','RR/MM/DD HH:MI:SS'),to_date('20/03/17 05:51:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test1','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test2','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test3','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test4','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test5','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test6','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test7','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test8','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test9','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test10','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test11','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test12','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test13','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test14','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('tset15','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('tset16','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test17','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'1@a.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test18','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','Y','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'kw0247@naver.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test19','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','Y','N',24369.78,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'tibetkowon@kakao.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('test20','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','17527','Í≤ΩÍ∏∞ ?ïà?Ñ±?ãú ?ùºÏ£ΩÎ©¥ Î∂ÑÎèôÍ∏? 4','?ÉÅ?Ñ∏Ï£ºÏÜå','1234','N','N',0,to_date('20/03/17 05:48:59','RR/MM/DD HH:MI:SS'),to_date('20/03/23 10:52:01','RR/MM/DD HH:MI:SS'),'kw0247@naver.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('user4','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','63534','?†úÏ£ºÌäπÎ≥ÑÏûêÏπòÎèÑ ?ÑúÍ∑??è¨?ãú Í∞?Í∞?Î°? 14','?ïú?ùºÎ¥? (?ÉÅ?òà?èô)','123-4567-8901','Y','Y',0,to_date('20/03/20 09:44:12','RR/MM/DD HH:MI:SS'),to_date('20/03/20 09:44:12','RR/MM/DD HH:MI:SS'),'kw0247@naver.com');
+Insert into USERS_TBL (USER_ID,USER_NAME,USER_PW,USER_POSTCODE,USER_ADDRESS,USER_DETAILADDR,USER_PHONENUM,USER_MAIL_CHECK,USER_AUTH,USER_POINT,USER_CREATEDATE,USER_UPDATE,USER_EMAIL) values ('user6','?ù¥Î¶?','$2a$10$rGqPi6dQ4bzFn6StjoxByuBSI4Q8C.xHwO2slWtidYjVniAYZZ/ea','26341','Í∞ïÏõê ?õêÏ£ºÏãú ?èå?Ñ∞1Í∏? 6','?ö∞?Ç∞?èônull','010-1234-1234','N','N',0,to_date('20/03/18 05:56:19','RR/MM/DD HH:MI:SS'),to_date('20/03/18 05:56:19','RR/MM/DD HH:MI:SS'),'kw0247@naver.com');
+--------------------------------------------------------
+--  DDL for Index SYS_C0013160
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013160" ON "REVIEW_TBL" ("REVIEW_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013112
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013112" ON "CATEGORY_TBL" ("CATEGORY_CODE") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013153
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013153" ON "BOARD_TBL" ("BOARD_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013469
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013469" ON "BOARD_REPLY_TBL" ("BOARD_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0012932
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0012932" ON "ADMIN_TBL" ("ADMIN_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013127
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013127" ON "PRODUCT_TBL" ("PRODUCT_CODE") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013143
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013143" ON "ORDER_TBL" ("ORDER_CODE") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013479
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013479" ON "FAQ_TBL" ("FAQ_NUM") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013146
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013146" ON "ORDER_DETAIL_TBL" ("ORDER_CODE", "PRODUCT_CODE") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013133
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013133" ON "CART_TBL" ("CART_CODE") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C0013110
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C0013110" ON "USERS_TBL" ("USER_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Trigger TRG_BOARD_REPLY
+--------------------------------------------------------
+
+  CREATE OR REPLACE TRIGGER "TRG_BOARD_REPLY" 
+    after insert or update
+    on board_reply_tbl
+    for each row
+declare
+    v_board_num number := :new.board_num;
+begin
+    update board_tbl set board_reply = 'Y' where board_num = v_board_num;
+end;
+/
+ALTER TRIGGER "TRG_BOARD_REPLY" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TRG_POINT
+--------------------------------------------------------
+
+  CREATE OR REPLACE TRIGGER "TRG_POINT" 
+    AFTER  UPDATE
+    on order_tbl
+    for each row
+declare
+    v_user varchar2(50) := :new.user_id;
+    v_price number := :new.ORDER_SUMPRICE;
+begin
+    if :new.order_check = 'N' then
+        update users_tbl set user_point = user_point - (v_price*0.03) where user_id = v_user;
+    end if;
+
+    if :new.order_check = 'Y' then
+    update users_tbl set user_point = user_point + (v_price*0.03) where user_id = v_user;
+    end if;
+end;
+/
+ALTER TRIGGER "TRG_POINT" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TRG_ORDER
+--------------------------------------------------------
+
+  CREATE OR REPLACE TRIGGER "TRG_ORDER" 
+after insert
+on order_detail_tbl
+for each row
+declare
+    v_order_count number;
+    v_product_code number;
+    v_product_amount number;
+begin
+    select :new.order_count into v_order_count from dual;
+    select :new.product_code into v_product_code from dual;
+    select product_amount into v_product_amount from product_tbl where product_code = v_product_code;
+
+    if v_product_amount != 9999 then
+    update product_tbl set product_amount = product_amount - v_order_count 
+    where product_code = v_product_code;
+    end if;
+end;
+/
+ALTER TRIGGER "TRG_ORDER" ENABLE;
+--------------------------------------------------------
+--  Constraints for Table REVIEW_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "REVIEW_TBL" MODIFY ("USER_ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "REVIEW_TBL" MODIFY ("PRODUCT_CODE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "REVIEW_TBL" MODIFY ("REVIEW_CONTENT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "REVIEW_TBL" MODIFY ("REVIEW_DATE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "REVIEW_TBL" ADD PRIMARY KEY ("REVIEW_ID") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table CATEGORY_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "CATEGORY_TBL" MODIFY ("CATEGORY_NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "CATEGORY_TBL" ADD PRIMARY KEY ("CATEGORY_CODE") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table BOARD_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "BOARD_TBL" MODIFY ("USER_ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "BOARD_TBL" MODIFY ("BOARD_TITLE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "BOARD_TBL" MODIFY ("BOARD_CONTENT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "BOARD_TBL" MODIFY ("BOARD_CREATEDAY" NOT NULL ENABLE);
+ 
+  ALTER TABLE "BOARD_TBL" ADD PRIMARY KEY ("BOARD_NUM") ENABLE;
+ 
+  ALTER TABLE "BOARD_TBL" MODIFY ("PRODUCT_CODE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "BOARD_TBL" MODIFY ("BOARD_REPLY" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table BOARD_REPLY_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "BOARD_REPLY_TBL" MODIFY ("ADMIN_ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "BOARD_REPLY_TBL" MODIFY ("REPLY_CONTENT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "BOARD_REPLY_TBL" ADD PRIMARY KEY ("BOARD_NUM") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table ADMIN_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "ADMIN_TBL" MODIFY ("ADMIN_PW" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ADMIN_TBL" MODIFY ("ADMIN_NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ADMIN_TBL" ADD PRIMARY KEY ("ADMIN_ID") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table PRODUCT_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("CATEGORY_CODE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PARENTS_CODE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_PRICE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_DISCOUNT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_COMPANY" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_INFORM" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_IMAGE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_AMOUNT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_EVENT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_BUY" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_CREATEDATE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" MODIFY ("PRODUCT_UPDATE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "PRODUCT_TBL" ADD PRIMARY KEY ("PRODUCT_CODE") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table ORDER_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "ORDER_TBL" MODIFY ("USER_ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_TBL" MODIFY ("ORDER_NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_TBL" MODIFY ("ORDER_POSTCODE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_TBL" MODIFY ("ORDER_ADDRESS" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_TBL" MODIFY ("ORDER_DETAILADDR" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_TBL" MODIFY ("ORDER_PHONENUM" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_TBL" MODIFY ("ORDER_SUMPRICE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_TBL" ADD PRIMARY KEY ("ORDER_CODE") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table FAQ_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_WRITER" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_CONTENT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_WRITEDATE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_RE_LEVEL" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_RE_STEP" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" ADD PRIMARY KEY ("FAQ_NUM") ENABLE;
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_LASTUPDATE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_REF" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("FAQ_TITLE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("WRITER_ONLY" NOT NULL ENABLE);
+ 
+  ALTER TABLE "FAQ_TBL" MODIFY ("ADMIN_REPLY" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table ORDER_DETAIL_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "ORDER_DETAIL_TBL" MODIFY ("ORDER_COUNT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_DETAIL_TBL" MODIFY ("ORDER_PRICE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "ORDER_DETAIL_TBL" ADD PRIMARY KEY ("ORDER_CODE", "PRODUCT_CODE") ENABLE;
+ 
+  ALTER TABLE "ORDER_DETAIL_TBL" MODIFY ("ORDER_REVIEW" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table CART_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "CART_TBL" MODIFY ("PRODUCT_CODE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "CART_TBL" MODIFY ("USER_ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "CART_TBL" MODIFY ("PRODUCT_COUNT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "CART_TBL" ADD PRIMARY KEY ("CART_CODE") ENABLE;
+--------------------------------------------------------
+--  Constraints for Table USERS_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_PW" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_POSTCODE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_ADDRESS" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_DETAILADDR" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_PHONENUM" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_MAIL_CHECK" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_AUTH" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_POINT" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_CREATEDATE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_UPDATE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "USERS_TBL" ADD PRIMARY KEY ("USER_ID") ENABLE;
+ 
+  ALTER TABLE "USERS_TBL" MODIFY ("USER_EMAIL" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Ref Constraints for Table REVIEW_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "REVIEW_TBL" ADD FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS_TBL" ("USER_ID") DISABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table CATEGORY_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "CATEGORY_TBL" ADD FOREIGN KEY ("PARENTS_CODE")
+	  REFERENCES "CATEGORY_TBL" ("CATEGORY_CODE") DISABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table BOARD_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "BOARD_TBL" ADD FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS_TBL" ("USER_ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table BOARD_REPLY_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "BOARD_REPLY_TBL" ADD FOREIGN KEY ("BOARD_NUM")
+	  REFERENCES "BOARD_TBL" ("BOARD_NUM") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table PRODUCT_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "PRODUCT_TBL" ADD FOREIGN KEY ("CATEGORY_CODE")
+	  REFERENCES "CATEGORY_TBL" ("CATEGORY_CODE") DISABLE;
+ 
+  ALTER TABLE "PRODUCT_TBL" ADD FOREIGN KEY ("PARENTS_CODE")
+	  REFERENCES "CATEGORY_TBL" ("CATEGORY_CODE") DISABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table ORDER_DETAIL_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "ORDER_DETAIL_TBL" ADD FOREIGN KEY ("ORDER_CODE")
+	  REFERENCES "ORDER_TBL" ("ORDER_CODE") ENABLE;
+ 
+  ALTER TABLE "ORDER_DETAIL_TBL" ADD FOREIGN KEY ("PRODUCT_CODE")
+	  REFERENCES "PRODUCT_TBL" ("PRODUCT_CODE") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table CART_TBL
+--------------------------------------------------------
+
+  ALTER TABLE "CART_TBL" ADD FOREIGN KEY ("PRODUCT_CODE")
+	  REFERENCES "PRODUCT_TBL" ("PRODUCT_CODE") ENABLE;
+ 
+  ALTER TABLE "CART_TBL" ADD FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS_TBL" ("USER_ID") DISABLE;

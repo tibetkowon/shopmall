@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper/Ad_chartMapper">
+
+	<select id="prt_cateChart" resultType="HashMap">
+ 		select sum(o.order_count) count,c.category_name
+		from order_detail_tbl o,product_tbl p,category_tbl c
+		where o.product_code = p.product_code
+		and p.parents_code = c.category_code
+		group by c.category_name
+	</select>
+	
+	<select id="cateChart" parameterType="int" resultType="HashMap">
+		select nvl(o.count,0) count,c.category_name
+		from category_tbl c left join 
+		(select sum(o.order_count) count,p.category_code
+		from order_detail_tbl o ,product_tbl p
+		where o.product_code = p.product_code
+		group by p.category_code) o
+		on c.category_code = o.category_code
+		where c.parents_code = #{prt_code}
+	</select>
+	<select id="multi_cateChart" parameterType="java.util.List" resultType="HashMap">
+		select sum(o.order_count) count,c.category_name
+		from order_detail_tbl o , product_tbl p , category_tbl c
+		where o.product_code = p.product_code
+		and p.category_code = c.category_code
+		and c.parents_code in 
+		<foreach item="item" index="index" collection="list" separator="," close=")" open="(">#{item}</foreach>
+		group by c.category_name	
+	</select>
+	
+	<select id="getPrtRank" parameterType="int" resultType="HashMap">
+		select count,product_name
+		from(select sum(o.order_count) count,p.product_name ,row_number() over(order by sum(o.order_count) desc) num
+	        from order_detail_tbl o , product_tbl p , category_tbl c
+	        where o.product_code = p.product_code
+	        and p.parents_code = c.category_code
+	        and c.category_code = #{prt_code}
+	        group by p.product_name)
+		where num between 1 and 5
+	</select>
+	
+	<select id="getCateRank" parameterType="int" resultType="HashMap">
+		select count,product_name
+		from(select sum(o.order_count) count,p.product_name ,row_number() over(order by sum(o.order_count) desc) num
+	        from order_detail_tbl o , product_tbl p , category_tbl c
+	        where o.product_code = p.product_code
+	        and p.category_code = c.category_code
+	        and c.category_code = #{cate_code}
+	        group by p.product_name)
+		where num between 1 and 5
+	</select>
+	
+	<select id="getAllRank" resultType="HashMap">
+		select count,product_name
+		from(select sum(o.order_count) count,p.product_name ,row_number() over(order by sum(o.order_count) desc) num
+	        from order_detail_tbl o , product_tbl p , category_tbl c
+	        where o.product_code = p.product_code
+	        and p.category_code = c.category_code
+	        group by p.product_name)
+		where num between 1 and 5
+	</select>
+	
+	<sql id="searchDate">
+    	where order_date between to_date(#{start_date},'YYYY-MM-DD') and to_date(#{end_date},'YYYY-MM-DD')+0.9999
+	</sql>
+	
+	<select id="searchPeriodSales" parameterType="DateSearchDTO" resultType="HashMap">
+		select sum(order_sumprice) sales,order_date
+			from(select order_sumprice,to_char(order_date,'YYYY-MM-DD') order_date
+			    from order_tbl
+			    <include refid="searchDate"></include>
+			    )
+		group by order_date
+		order by order_date
+	</select>
+	
+	<select id="searchTop10" parameterType="DateSearchDTO" resultType="HashMap">
+		select product_name, sales
+		from
+			(select sum(d.order_count) sales,d.product_code,product_name,row_number() over(order by sum(d.order_count) desc) num
+			from
+				(select order_code,to_char(order_date,'YYYY-MM-DD') day
+					from order_tbl
+					<include refid="searchDate"></include>
+					order by day) o ,
+				order_detail_tbl d ,product_tbl p
+				where o.order_code = d.order_code
+				and d.product_code = p.product_code
+			group by d.product_code,product_name)
+				where num between 1 and 10
+		order by num 
+	</select>
+	
+	<select id="searchPrtSales" parameterType="DateSearchDTO" resultType="HashMap">
+		select sum(order_count)count,c.category_name
+		from order_detail_tbl d,product_tbl p, category_tbl c,
+			(select order_code,to_char(order_date,'YYYY-MM-DD') day
+			from order_tbl
+			<include refid="searchDate"></include>
+			order by day)o
+			where d.order_code = o.order_code
+			and d.product_code = p.product_code
+			and p.parents_code = c.category_code
+			group by c.category_name
+	</select>
+	
+	<select id="searchCateSales" parameterType="map" resultType="HashMap">
+	select sum(order_count)count,c.category_name
+		from order_detail_tbl d,product_tbl p, category_tbl c,
+			(select order_code,to_char(order_date,'YYYY-MM-DD') day
+			from order_tbl
+			where order_date between to_date(#{dto.start_date},'YYYY-MM-DD') and to_date(#{dto.end_date},'YYYY-MM-DD')+0.9999
+			order by day)o
+			where d.order_code = o.order_code
+			and d.product_code = p.product_code
+			and p.category_code = c.category_code
+            and p.parents_code in 
+			<foreach item="item" index="index" collection="cate_code" separator="," close=")" open="(">#{item}</foreach>
+			group by c.category_name
+	
+	</select>
+	
+	<select id="user_create" parameterType="DateSearchDTO" resultType="HashMap">
+		<![CDATA[
+		select nvl(count(user_id),0) count,days
+		from users_tbl u right join
+		(SELECT TO_CHAR(TO_DATE(#{start_date}) + LEVEL - 1, 'MM/DD') AS days
+		FROM DUAL
+		CONNECT BY LEVEL <= (TO_DATE(#{end_date}) - TO_DATE(#{start_date}) + 1)) d
+		on to_char(u.user_createdate,'MM/DD') = d.days
+		group by days
+		order by days
+		]]>
+	</select>
+	
+	<select id="order_count" parameterType="DateSearchDTO" resultType="HashMap">
+		<![CDATA[
+		select nvl(count(order_code),0) count,days
+		from order_tbl o right join
+		(SELECT TO_CHAR(TO_DATE(#{start_date}) + LEVEL - 1, 'MM/DD') AS days
+		FROM DUAL
+		CONNECT BY LEVEL <= (TO_DATE(#{end_date}) - TO_DATE(#{start_date}) + 1)) d
+		on to_char(o.order_date,'MM/DD') = d.days
+		group by days
+		order by days
+		]]>
+	</select>
+</mapper>

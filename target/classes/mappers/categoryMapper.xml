@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper/CategoryMapper">
+
+	<select id="prt_cateCode" resultType="CategoryVO">
+		select * from category_tbl where parents_code is null
+	</select>
+
+	<select id="cateCode" parameterType="string" resultType="CategoryVO">
+		select * from category_tbl where parents_code = #{prt_code}
+	</select>
+	
+	<select id="cateName" parameterType="string" resultType="CategoryVO">
+		select * from category_tbl where category_code = #{sub_code}	
+	</select>
+	
+	<insert id="insert_prtCategory" parameterType="CategoryVO">
+		insert into category_tbl values((select nvl(max(category_code),0)+100 from category_tbl where parents_code is null),null,#{category_name})
+	</insert>
+	
+	<insert id="insert_subCategory" parameterType="CategoryVO">
+		insert into category_tbl values((select nvl(max(category_code),#{parents_code})+1 from category_tbl where parents_code = #{parents_code}),#{parents_code},#{category_name})
+	</insert>
+	
+	<select id="all_category" parameterType="Criteria" resultType="CategoryVO">
+		select * from category_tbl where rownum between #{rowStart} and #{rowEnd} order by category_code
+	</select>
+	
+	<select id="count_category" resultType="int">
+		select count(category_code) from category_tbl
+	</select>
+	
+	<update id="modify_Category" parameterType="CategoryVO">
+		update category_tbl set
+		category_name = #{category_name},
+		parents_code = #{parents_code}
+		where category_code = #{category_code}
+	</update>
+	
+	<delete id="delete_Category" parameterType="string">
+		delete from category_tbl
+		where category_code = #{category_code}
+	</delete>
+
+</mapper>

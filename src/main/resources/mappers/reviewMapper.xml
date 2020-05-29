@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper/ReviewMapper">
+
+	<select id="readReview" parameterType="int" resultType="ReviewVO">
+		select review_id, USER_ID, PRODUCT_CODE, REVIEW_CONTENT, REVIEW_DATE,
+		 ROW_NUMBER() OVER (ORDER BY review_id desc) as "rno" from review_tbl
+		 where product_code = #{product_code}
+	</select>
+	
+	<insert id="writeReview" parameterType="ReviewVO">
+		insert into Review_tbl(review_id,user_id,product_code,review_content)
+		values(seq_review_id.nextval,#{user_id},#{product_code},#{review_content})
+	</insert>
+	
+	<update id="modifyReview" parameterType="ReviewVO">
+		update review_tbl set
+		REVIEW_CONTENT = #{review_content}
+		where review_id = #{review_id}
+	</update>
+
+	<delete id="deleteReview" parameterType="int">
+		delete from review_tbl where review_id = #{review_id}
+	</delete>
+</mapper>

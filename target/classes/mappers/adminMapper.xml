@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper/AdminMapper">
+
+	<select id="login" parameterType="LoginDTO" resultType="AdminVO">
+		select * from admin_tbl where admin_id = #{id}
+	</select>
+
+	<update id="time_update" parameterType="AdminVO">
+		update admin_tbl set last_date = sysdate where admin_id = #{admin_id}
+	</update>
+	
+	<update id="pwModify" parameterType="AdminVO">
+	update admin_tbl set admin_pw = #{admin_pw} where admin_id = #{admin_id}
+	</update>
+	
+	<select id="readAdmin" parameterType="string" resultType="AdminVO">
+	select admin_id, ADMIN_PW, ADMIN_NAME, LAST_DATE from admin_tbl where admin_id = #{admin_id}
+	</select>
+	
+	<select id="countQnA" resultType="int">
+		select nvl(count(board_num),0)
+		from board_tbl
+		where board_reply = 'N'
+	</select>
+	<select id="countFAQ" resultType="int">
+		select nvl(count(faq_num),0)
+		from faq_tbl
+		where faq_ref = 0 
+		and TO_CHAR(faq_writedate,'yyyy/mm/dd') between to_char(sysdate-1,'yyyy/mm/dd') and to_char(sysdate,'yyyy/mm/dd')
+	</select>
+	<select id="countOrder" resultType="int">
+	select nvl(count(order_code),0)
+		from order_tbl
+		where TO_CHAR(order_date,'yyyy/mm/dd') = to_char(sysdate-1,'yyyy/mm/dd')
+	</select>
+</mapper>

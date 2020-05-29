@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper/CartMapper">
+	
+	<insert id="addCart" parameterType="CartVO">
+		merge into cart_tbl c 
+		using dual 
+			on (c.user_id=#{user_id} and c.product_code=#{product_code})
+			
+			when matched then
+				update set product_count = product_count+#{product_count}
+			when not matched then
+		insert(cart_code,user_id,product_code,product_count)
+		values(seq_cart_id.nextval,#{user_id},#{product_code},#{product_count})
+	</insert>
+	
+	<select id="cartList" parameterType="string" resultType="CartListVO">
+		select p.product_name,p.product_image,p.product_price,c.product_count,c.product_code,c.cart_code
+		from cart_tbl c left join product_tbl p
+		on (c.product_code = p.product_code)
+		where c.user_id = #{user_id}
+		order by cart_code desc
+	</select>
+	
+	<select id="checkCartList" parameterType="int" resultType="CartListVO">
+		select p.product_name,p.product_image,p.product_price,c.product_count,c.product_code,c.cart_code
+		from cart_tbl c left join product_tbl p
+		on (c.product_code = p.product_code)
+		where c.cart_code = #{cart_code}
+		order by cart_code desc
+	</select>
+	
+	<update id="countUpdate" parameterType="CartVO">
+		update cart_tbl set 
+		product_count = #{product_count}
+		where 
+		user_id = #{user_id}
+		and
+		product_code = #{product_code}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from cart_tbl where cart_code = #{cart_code}
+	</delete>
+	
+	<delete id="deleteAll" parameterType="string">
+		delete from cart_tbl where user_id = #{user_id}
+	</delete>
+	
+</mapper>
